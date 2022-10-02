@@ -8,7 +8,7 @@ object boolLang :
   val assignMap : collection.mutable.Map[String, Boolean] = collection.mutable.Map()
 
 
-enum boolAlgebra:
+  enum boolAlgebra:
     case Assign(value: String, boolAlgebra: boolAlgebra)
     case Scope(value: String, value2: Boolean)
     case TestGate(value: String, value2: Boolean)
@@ -31,9 +31,14 @@ enum boolAlgebra:
       case Value(x) => x
       case NOT(num1) => !(num1.eval)
       case AND(num1, num2)=> num1.eval && num2.eval
+      case OR(o1, o2) => o1.eval || o2.eval
+      case XOR(o1, o2) => (o1.eval || o2.eval) && (!(o1.eval) || !(o2.eval))
+      case NAND(o1, o2) => !(o1.eval || o2.eval)
+      case NOR(o1, o2) => !(o1.eval || o2.eval)
+      case OR(o1, o2) => (o1.eval || o2.eval) || (!(o1.eval) && !(o2.eval))
+      case XOR(o1, o2) => (o1.eval && o2.eval) || (!(o1.eval) && !(o2.eval))
 
-@main def runBool =
+  @main def runBool =
     import boolAlgebra.*
-    println("Samruddhi gadhi ki bacchi hai")
     println(NOT(Value(false)).eval)
     println(AND(Value(true), Value(false)).eval)
